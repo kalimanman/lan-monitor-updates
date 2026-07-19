@@ -1,0 +1,12 @@
+# Public update repository: deny everything except the signed feed and its docs.
+*
+!.gitignore
+!.nojekyll
+!README.md
+!updates/
+!updates/canary/
+!updates/canary/latest.json
+!updates/canary/latest.json.sig
+!updates/stable/
+!updates/stable/latest.json
+!updates/stable/latest.json.sig
