@@ -4,10 +4,10 @@
 !.nojekyll
 !README.md
 !CNAME
-!lanmonitor/
-!lanmonitor/canary/
-!lanmonitor/canary/latest.json
-!lanmonitor/canary/latest.json.sig
-!lanmonitor/stable/
-!lanmonitor/stable/latest.json
-!lanmonitor/stable/latest.json.sig
+!updates/
+!updates/canary/
+!updates/canary/latest.json
+!updates/canary/latest.json.sig
+!updates/stable/
+!updates/stable/latest.json
+!updates/stable/latest.json.sig
