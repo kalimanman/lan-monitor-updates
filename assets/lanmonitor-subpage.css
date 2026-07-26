@@ -244,8 +244,8 @@ details[open] summary::after {
 }
 
 .qr-frame {
-  width: min(100%, 260px);
-  padding: 14px;
+  width: min(100%, 190px);
+  padding: 10px;
   border: 1px solid #cfe8d8;
   border-radius: 18px;
   background: #fff;
@@ -304,6 +304,10 @@ details[open] summary::after {
 }
 
 @media (max-width: 540px) {
+  .qr-frame {
+    width: 172px;
+  }
+
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;

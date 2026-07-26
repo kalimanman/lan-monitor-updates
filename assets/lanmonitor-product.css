@@ -691,7 +691,8 @@ details p {
 }
 
 .line-card img {
-  width: 190px;
+  width: min(100%, 168px);
+  height: auto;
   margin: 0 auto 12px;
 }
 
@@ -788,6 +789,10 @@ details p {
   .line-card {
     width: min(100%, 280px);
     margin-inline: auto;
+  }
+
+  .line-card img {
+    width: 150px;
   }
 
 }

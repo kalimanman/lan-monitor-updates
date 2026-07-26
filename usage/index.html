@@ -189,7 +189,7 @@
     }
     .line-badge { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; }
     .line-badge::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #06c755; box-shadow: 0 0 0 4px rgba(6,199,85,.13); }
-    .line-card img { width: 210px; height: 210px; margin: 14px auto 10px; }
+    .line-card img { width: min(100%, 168px); height: auto; margin: 14px auto 10px; }
     .line-card p { margin: 0; color: var(--text); font-size: .9rem; font-weight: 700; line-height: 1.6; }
     .site-footer { padding: 28px 0; border-top: 1px solid var(--line); background: #fff; color: var(--muted); font-size: .86rem; }
     .footer-inner { width: min(100% - 32px,var(--container)); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
@@ -218,7 +218,7 @@
       .step { grid-template-columns: 1fr; gap: 16px; }
       .step::before { width: 52px; height: 52px; border-radius: 13px; font-size: 1.05rem; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
-      .line-card img { width: 190px; height: 190px; }
+      .line-card img { width: 150px; }
     }
     @media print {
       .site-header, .hero-actions, .contact, .site-footer { display: none; }
