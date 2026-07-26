@@ -80,25 +80,57 @@
 }
 
 @media (max-width: 900px) {
+  html {
+    scroll-padding-top: 126px;
+  }
+
+  .site-header .nav {
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 8px 0 9px;
+  }
+
+  .site-header .nav-links {
+    order: 2;
+    width: 100%;
+    margin-left: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .site-header .nav-links > a {
+    display: flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 2px;
+    border-radius: 7px;
+    font-size: .78rem;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+  }
+
   .site-header .nav-links > a:not(.button) {
-    display: none;
+    background: rgba(255, 255, 255, .07);
+  }
+
+  .site-header .nav-links .button {
+    min-height: 36px;
+    padding: 5px 2px;
+    font-size: .78rem;
   }
 }
 
 @media (max-width: 560px) {
   .site-header .nav {
     width: min(100% - 24px, 1120px);
-    min-height: 62px;
+    min-height: 0;
   }
 
   .site-header .brand img {
-    width: 38px;
-    height: 38px;
-  }
-
-  .site-header .nav-links .button {
-    min-height: 40px;
-    padding: 9px 12px;
-    font-size: .86rem;
+    width: 36px;
+    height: 36px;
   }
 }
