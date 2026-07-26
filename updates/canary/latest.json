@@ -1,13 +1,13 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "channel": "canary",
   "updater_min_version": "1.0.0",
   "images": {
     "monitor": {
-      "image": "ghcr.io/kalimanman/lan-monitor:1.0.2",
-      "digest": "sha256:32de8f18469d8c25edaec76a923a61dd550b505283f1d74f928272990b1879d5"
+      "image": "ghcr.io/kalimanman/lan-monitor:1.0.3",
+      "digest": "sha256:1fa83533e64689d843aae168dd3f8b48238647f6366f15e07ad4f17a4b4d2dd3"
     }
   },
   "notes": "変更内容を1行で記載",
-  "created_at": "2026-07-24T13:53:21Z"
+  "created_at": "2026-07-26T23:11:01Z"
 }
