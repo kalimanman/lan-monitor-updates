@@ -1,9 +1,20 @@
-# Public update repository: deny everything except the signed feed and its docs.
+# Public GitHub Pages repository: allow the website and signed update feeds.
 *
 !.gitignore
 !.nojekyll
 !README.md
 !CNAME
+!index.html
+!assets/
+!assets/**
+assets/RPI-4B-1_silver_preview.glb
+assets/preview.html
+!usage/
+!usage/index.html
+!qa/
+!qa/index.html
+!contact/
+!contact/index.html
 !updates/
 !updates/canary/
 !updates/canary/latest.json

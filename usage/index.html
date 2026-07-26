@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="/assets/cerberus-logo.png">
+  <title>かんたん設定ガイド | LAN Monitor</title>
+  <meta name="description" content="LAN Monitorを初めて使う方向けの設定手順です。本体の接続からルーターのDNS設定、履歴の確認まで、画面を追うだけで進められます。">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="かんたん設定ガイド | LAN Monitor">
+  <meta property="og:description" content="本体をつないで、表示された数字をルーターへ入力するだけ。LAN Monitorの初期設定をわかりやすく案内します。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://lanmonitor.cerberushack.com/usage/">
+  <link rel="canonical" href="https://lanmonitor.cerberushack.com/usage/">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033; --text: #3c465a; --muted: #667085;
+      --blue: #2468df; --blue-dark: #174ca8; --teal: #008f7a; --coral: #f26642;
+      --paper: #f4f8fb; --surface: #fff; --line: #d9e3ec;
+      --soft-blue: #edf5ff; --soft-teal: #eafaf5; --soft-yellow: #fff8df; --soft-red: #fff1ed;
+      --shadow: 0 18px 50px rgba(37,57,88,.1); --container: 1060px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0; color: var(--text); background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px; line-height: 1.8;
+    }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+    .skip-link {
+      position: fixed; top: 8px; left: 8px; z-index: 100; padding: 10px 14px;
+      border-radius: 8px; background: var(--ink); color: #fff; transform: translateY(-150%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .site-header {
+      position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(217,227,236,.9);
+      background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
+    }
+    .nav {
+      width: min(100% - 32px, var(--container)); min-height: 68px; margin: 0 auto;
+      display: flex; align-items: center; gap: 20px;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px; color: var(--ink);
+      font-weight: 900; line-height: 1.15; text-decoration: none; white-space: nowrap;
+    }
+    .brand img { width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 8px; object-fit: contain; }
+    .brand small { display: block; margin-top: 3px; color: var(--muted); font-size: .68rem; font-weight: 800; }
+    .nav-links { margin-left: auto; display: flex; align-items: center; gap: 18px; font-size: .9rem; font-weight: 800; }
+    .nav-links a, .footer-links a { text-decoration: none; }
+    .nav-links a:hover, .footer-links a:hover { color: var(--blue); }
+    .button {
+      display: inline-flex; min-height: 48px; align-items: center; justify-content: center;
+      padding: 12px 20px; border: 1px solid var(--line); border-radius: 10px;
+      background: #fff; color: var(--ink); font-weight: 900; line-height: 1.35;
+      text-align: center; text-decoration: none;
+    }
+    .button.primary { border-color: var(--blue); background: var(--blue); color: #fff; box-shadow: 0 10px 22px rgba(36,104,223,.22); }
+    .button.primary:hover { border-color: var(--blue-dark); background: var(--blue-dark); }
+    .container { width: min(100% - 32px, var(--container)); margin: 0 auto; }
+    .hero {
+      padding: clamp(52px,8vw,86px) 0 44px;
+      background: radial-gradient(circle at 84% 12%,rgba(0,168,150,.14),transparent 28%), linear-gradient(180deg,#fff 0%,var(--paper) 100%);
+    }
+    .hero-grid { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(300px,.8fr); gap: clamp(32px,7vw,80px); align-items: center; }
+    .eyebrow, .kicker { margin: 0 0 10px; color: var(--teal); font-size: .82rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+    h1, h2, h3 { color: var(--ink); line-height: 1.35; }
+    h1 { margin: 0; font-size: clamp(2.35rem,6vw,3.9rem); letter-spacing: -.035em; white-space: nowrap; }
+    h2 { margin: 0; font-size: clamp(1.75rem,4vw,2.7rem); letter-spacing: -.02em; }
+    h3 { margin: 0; font-size: 1.28rem; }
+    .hero-lead { max-width: 650px; margin: 20px 0 0; font-size: clamp(1.05rem,2vw,1.2rem); font-weight: 700; }
+    .hero-lead strong { color: var(--blue-dark); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .time-card { padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: var(--shadow); }
+    .time-card strong { display: block; color: var(--blue); font-size: 2.7rem; line-height: 1.1; }
+    .time-card > span { color: var(--ink); font-size: 1.05rem; font-weight: 900; }
+    .time-card ul { margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); list-style: none; }
+    .time-card li { position: relative; padding-left: 28px; }
+    .time-card li + li { margin-top: 8px; }
+    .time-card li::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-weight: 900; }
+    .route { padding: 30px 0 54px; }
+    .route-list {
+      display: grid; grid-template-columns: repeat(4,1fr); margin: 0; padding: 0;
+      border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+      background: #fff; list-style: none; box-shadow: 0 10px 32px rgba(37,57,88,.06);
+    }
+    .route-list li { position: relative; min-height: 116px; padding: 22px 20px; }
+    .route-list li + li { border-left: 1px solid var(--line); }
+    .route-list li + li::before {
+      content: "›"; position: absolute; top: 37px; left: -8px; width: 16px; height: 28px;
+      background: #fff; color: var(--blue); font-size: 1.8rem; font-weight: 900; line-height: 24px; text-align: center;
+    }
+    .route-num { display: block; margin-bottom: 6px; color: var(--blue); font-size: .75rem; font-weight: 900; letter-spacing: .1em; }
+    .route-list strong { color: var(--ink); }
+    .section { padding: clamp(58px,8vw,90px) 0; }
+    .section.white { background: #fff; }
+    .section.soft-blue { background: var(--soft-blue); }
+    .section-head { max-width: 760px; margin-bottom: 34px; }
+    .section-head p:last-child { margin: 14px 0 0; font-size: 1.04rem; }
+    .check-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+    .check-card { display: flex; gap: 15px; align-items: flex-start; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .check-icon {
+      flex: 0 0 42px; width: 42px; height: 42px; border-radius: 50%;
+      background: var(--soft-teal); color: var(--teal); font-size: 1.25rem; font-weight: 900; line-height: 42px; text-align: center;
+    }
+    .check-card p { margin: 4px 0 0; color: var(--muted); font-size: .93rem; }
+    .steps { counter-reset: guide-step; display: grid; gap: 22px; }
+    .step {
+      counter-increment: guide-step; display: grid; grid-template-columns: 76px minmax(0,1fr);
+      gap: 24px; padding: clamp(24px,4vw,38px); border: 1px solid var(--line);
+      border-radius: 18px; background: #fff; box-shadow: 0 10px 30px rgba(37,57,88,.06);
+    }
+    .step::before {
+      content: counter(guide-step,decimal-leading-zero); display: grid; width: 68px; height: 68px;
+      place-items: center; border-radius: 16px; background: var(--blue); color: #fff; font-size: 1.35rem; font-weight: 900;
+    }
+    .step-body > p { margin: 10px 0 0; }
+    .step-body ol, .step-body ul { margin: 20px 0 0; padding-left: 1.35em; }
+    .step-body li + li { margin-top: 10px; }
+    .step-body li::marker { color: var(--blue); font-weight: 900; }
+    .callout { margin-top: 20px; padding: 17px 18px; border-left: 5px solid var(--teal); border-radius: 8px; background: var(--soft-teal); }
+    .callout.warning { border-left-color: #d79700; background: var(--soft-yellow); }
+    .callout.danger { border-left-color: var(--coral); background: var(--soft-red); }
+    .callout strong { display: block; color: var(--ink); }
+    .callout p { margin: 3px 0 0; }
+    .setup-complete {
+      padding: 28px; border-radius: 18px; background: var(--teal);
+      color: #fff; text-align: center; box-shadow: 0 10px 30px rgba(0,143,122,.18);
+    }
+    .setup-complete strong { display: block; font-size: clamp(1.5rem,4vw,2rem); }
+    .setup-complete p { margin: 6px 0 0; color: #eafff8; }
+    .confirmation-head { padding: 18px 4px 0; }
+    .confirmation-head h3 { font-size: clamp(1.45rem,3vw,2rem); }
+    .confirmation-head p:last-child { margin: 6px 0 0; }
+    .url-box {
+      margin-top: 18px; padding: 16px 18px; border: 2px solid var(--blue); border-radius: 12px;
+      background: #fff; color: var(--blue-dark); font-size: clamp(1.05rem,3vw,1.3rem); font-weight: 900; overflow-wrap: anywhere;
+    }
+    .url-box a { text-decoration: none; }
+    .field-sample { margin-top: 20px; padding: 18px; border: 1px dashed #9aabc0; border-radius: 12px; background: #fbfdff; }
+    .field-sample span { display: block; color: var(--muted); font-size: .82rem; font-weight: 800; }
+    .field-sample strong { display: block; margin-top: 4px; color: var(--ink); font-size: 1.25rem; letter-spacing: .04em; }
+    .screen { margin: 22px 0 0; padding: 10px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 12px 30px rgba(37,57,88,.1); }
+    .connection-image { max-width: 860px; margin: 22px auto 0; }
+    .screen img { width: 100%; border-radius: 8px; }
+    .screen figcaption { padding: 10px 8px 4px; color: var(--muted); font-size: .86rem; }
+    .screen-note { max-width: 860px; margin: 22px auto 8px; color: var(--ink); font-size: 1.05rem; font-weight: 900; }
+    .screen-note + .screen { margin-top: 0; }
+    .success-box { padding: clamp(26px,5vw,42px); border-radius: 20px; background: var(--teal); color: #fff; text-align: center; }
+    .success-box h2 { color: #fff; }
+    .success-box p { max-width: 650px; margin: 12px auto 0; color: #eafff8; }
+    .success-mark {
+      display: grid; width: 72px; height: 72px; margin: 0 auto 20px; place-items: center;
+      border-radius: 50%; background: #fff; color: var(--teal); font-size: 2rem; font-weight: 900;
+    }
+    .advanced-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+    details { border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    details[open] { box-shadow: 0 8px 24px rgba(37,57,88,.07); }
+    summary { position: relative; padding: 19px 50px 19px 20px; color: var(--ink); font-weight: 900; cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "＋"; position: absolute; top: 18px; right: 20px; color: var(--blue); font-size: 1.2rem; line-height: 1; }
+    details[open] summary::after { content: "−"; }
+    .details-body { padding: 0 20px 20px; }
+    .details-body p, .details-body ol, .details-body ul { margin-top: 0; }
+    .details-body :last-child { margin-bottom: 0; }
+    .faq-list { display: grid; gap: 12px; }
+    .contact {
+      position: relative; overflow: hidden; display: grid;
+      grid-template-columns: minmax(0,1fr) 310px; gap: clamp(32px,6vw,70px);
+      align-items: center; padding: clamp(32px,6vw,64px); border-radius: 24px;
+      background: linear-gradient(135deg,#14213a 0%,#173b59 58%,#087e75 100%);
+      color: #dfe8f5; box-shadow: 0 24px 58px rgba(23,32,51,.18);
+    }
+    .contact::before {
+      content: ""; position: absolute; width: 280px; height: 280px; top: -150px; right: 240px;
+      border-radius: 50%; background: rgba(255,255,255,.06); pointer-events: none;
+    }
+    .contact-copy { position: relative; z-index: 1; max-width: 590px; }
+    .contact-kicker { margin: 0 0 12px !important; color: #8ff3db; font-size: .78rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+    .contact h2 { color: #fff; }
+    .contact-copy > p:last-child { margin: 16px 0 0; color: #dceaf4; font-size: 1.02rem; }
+    .line-card {
+      position: relative; z-index: 1; padding: 20px; border: 1px solid rgba(255,255,255,.7);
+      border-radius: 18px; background: #fff; color: var(--ink); text-align: center;
+      box-shadow: 0 18px 42px rgba(5,20,38,.22);
+    }
+    .line-badge { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; }
+    .line-badge::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #06c755; box-shadow: 0 0 0 4px rgba(6,199,85,.13); }
+    .line-card img { width: 210px; height: 210px; margin: 14px auto 10px; }
+    .line-card p { margin: 0; color: var(--text); font-size: .9rem; font-weight: 700; line-height: 1.6; }
+    .site-footer { padding: 28px 0; border-top: 1px solid var(--line); background: #fff; color: var(--muted); font-size: .86rem; }
+    .footer-inner { width: min(100% - 32px,var(--container)); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    @media (max-width: 780px) {
+      .nav-links a:not(.button) { display: none; }
+      .nav-links .button { min-height: 42px; padding: 9px 13px; font-size: .82rem; }
+      .hero-grid, .check-grid, .advanced-grid, .contact { grid-template-columns: 1fr; }
+      .route-list { grid-template-columns: 1fr 1fr; }
+      .route-list li:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .route-list li:nth-child(4) { border-top: 1px solid var(--line); }
+      .route-list li:nth-child(3)::before { display: none; }
+      .contact-copy { max-width: none; text-align: center; }
+      .line-card { width: min(100%,310px); margin: 0 auto; }
+    }
+    @media (max-width: 540px) {
+      html { scroll-padding-top: 70px; }
+      body { font-size: 15px; }
+      .nav { min-height: 62px; }
+      .brand img { width: 36px; height: 36px; }
+      .brand small { display: none; }
+      .route-list { grid-template-columns: 1fr; }
+      .route-list li { min-height: auto; }
+      .route-list li + li { border-top: 1px solid var(--line); border-left: 0; }
+      .route-list li + li::before { display: none; }
+      .step { grid-template-columns: 1fr; gap: 16px; }
+      .step::before { width: 52px; height: 52px; border-radius: 13px; font-size: 1.05rem; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .line-card img { width: 190px; height: 190px; }
+    }
+    @media print {
+      .site-header, .hero-actions, .contact, .site-footer { display: none; }
+      body, .section, .section.white, .section.soft-blue { background: #fff; }
+      .hero, .section { padding: 24px 0; }
+      .step, .time-card { box-shadow: none; break-inside: avoid; }
+      details { break-inside: avoid; }
+      details > * { display: block; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/lanmonitor-header.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">手順へ移動</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="メインナビゲーション">
+      <a class="brand" href="/" aria-label="LAN Monitor トップページ">
+        <img src="../assets/cerberus-logo.png" alt="" width="42" height="42">
+        <span>LAN Monitor</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">製品紹介</a>
+        <a href="/usage/">設定ガイド</a>
+        <a href="/qa/">よくある質問</a>
+        <a class="button primary" href="/contact/">購入相談</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">First setup guide</p>
+          <h1>かんたん設定ガイド</h1>
+          <p class="hero-lead">むずかしい操作はありません。<strong>本体をつないで、画面に出た数字をルーターへ入力</strong>すれば完了です。</p>
+          <div class="hero-actions"><a class="button primary" href="#steps">設定を始める</a><a class="button" href="#faq">よくある質問</a></div>
+        </div>
+        <aside class="time-card" aria-label="設定の目安">
+          <strong>約10分</strong><span>設定の目安</span>
+          <ul><li>スマホだけでも設定できます</li><li>アプリの追加は不要です</li><li>いつでも元に戻せます</li></ul>
+        </aside>
+      </div>
+    </section>
+
+    <div class="route" aria-label="設定の流れ">
+      <div class="container">
+        <ol class="route-list">
+          <li><span class="route-num">STEP 1</span><strong>本体をつなぐ</strong></li>
+          <li><span class="route-num">STEP 2</span><strong>画面を開く</strong></li>
+          <li><span class="route-num">STEP 3</span><strong>数字を入力</strong></li>
+          <li><span class="route-num">STEP 4</span><strong>履歴を確認</strong></li>
+        </ol>
+      </div>
+    </div>
+
+    <section class="section white" id="prepare" aria-labelledby="prepare-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker">Before you start</p>
+          <h2 id="prepare-title">先に、2つだけ用意してください。</h2>
+        </div>
+        <div class="check-grid">
+          <article class="check-card"><span class="check-icon">1</span><div><h3>LAN Monitor本体とLANケーブル</h3><p>同梱品を箱から出してください。</p></div></article>
+          <article class="check-card"><span class="check-icon">2</span><div><h3>電源コード（Type-C）</h3><p><strong>電源コードは同梱されていません。</strong>利用者ご自身でご用意ください。</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-blue" id="steps" aria-labelledby="steps-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker">Setup</p>
+          <h2 id="steps-title">上から順番に進めてください。</h2>
+          <p>途中で画面が違って見えても大丈夫です。近い名前の項目を探してください。</p>
+        </div>
+        <div class="steps">
+          <article class="step"><div class="step-body">
+            <h3>本体をルーターにつなぐ</h3>
+            <ol>
+              <li>家の壁のLAN差込口と、ルーターの<strong>「WAN」「Internet」</strong>がLANケーブルでつながっていることを確認します。</li>
+              <li>別のLANケーブルの片方を、ルーターの<strong>「LAN」</strong>と書かれた空き口につなぎます。</li>
+              <li>もう片方をLAN Monitor本体につなぎます。</li>
+              <li>用意したUSB Type-C電源コードを本体につなぎ、<strong>約3分</strong>待ちます。</li>
+            </ol>
+            <figure class="screen connection-image">
+              <img src="../assets/lanmonitor-router-connection-v3.png" alt="家の壁のLAN差込口を途切れのない灰色のLANケーブルでルーターのWANポートへ接続し、ルーターのLANポートを途切れのない青いLANケーブルでLAN Monitor本体へ接続しているイメージ。" width="1672" height="941">
+              <figcaption>① 家の壁からルーターのWAN／Internetへ接続し、② ルーターのLANポートからLAN Monitorへ接続します。</figcaption>
+            </figure>
+            <aside class="callout warning"><strong>LAN Monitorは「WAN」「Internet」へつながないでください。</strong><p>LAN Monitorは、ふだんパソコンやテレビをつなぐ「LAN」側の空き口へ接続します。</p></aside>
+          </div></article>
+
+          <article class="step"><div class="step-body">
+            <h3>LAN Monitorの画面を開く（http://monitor-trafic.local/）</h3>
+            <p>自宅Wi-Fiにつながっているスマホまたはパソコンで、下のアドレスを開きます。</p>
+            <div class="url-box"><a href="http://monitor-trafic.local/">http://monitor-trafic.local/</a></div>
+            <aside class="callout"><strong>最初の1回だけ、管理用パスワードを決めます。</strong><p>「パスワード」と「パスワード（確認用）」へ同じ内容を入力し、<strong>「パスワードを設定」</strong>を押してください。</p></aside>
+            <p>続いて表示される「初期設定」画面で、<strong>「履歴へ進む」</strong>を押します。</p>
+          </div></article>
+
+          <article class="step"><div class="step-body">
+            <h3>ルーターへ入力する数字を控える</h3>
+            <ol>
+              <li>LAN Monitor画面の上にある<strong>「設定」</strong>を押します。</li>
+              <li><strong>「DNS設定」</strong>の中にある<strong>「ルーターDNSに設定するIP」</strong>を控えます。</li>
+            </ol>
+            <figure class="screen connection-image">
+              <img src="../assets/lanmonitor-dns-settings-highlighted.png" alt="LAN Monitorの設定画面。「DNS設定」の中にある「ルーターDNSに設定するIP」と192.168.1.10の行が赤線で強調されている。" width="2095" height="750">
+              <figcaption>設定画面の例。「ルーターDNSに設定するIP」の右側に表示された数字を控えます。</figcaption>
+            </figure>
+            <div class="field-sample"><span>表示例（ご自宅では違う数字になります）</span><strong>192.168.1.10</strong></div>
+            <aside class="callout danger"><strong>上の「192.168.1.10」は例です。そのまま入力しないでください。</strong><p>必ず、ご自宅のLAN Monitor画面に表示された数字を使います。</p></aside>
+          </div></article>
+
+          <article class="step"><div class="step-body">
+            <h3>ルーターのDNS設定を変更する</h3>
+            <p>LAN Monitorがルーターのアドレスを自動で確認するため、IPアドレスを調べる必要はありません。</p>
+            <div class="url-box"><a href="http://monitor-trafic.local/router">http://monitor-trafic.local/router</a></div>
+            <ol>
+              <li>LAN Monitorの「設定」にある<strong>「ルーターの管理画面を開く」</strong>を押します。上の固定アドレスを直接開いても同じです。</li>
+              <li>ルーターのログイン画面が開いたら、ルーター本体のシールなどに記載された管理者ID・パスワード、またはお客様ご自身で設定したID・パスワードを入力します。</li>
+              <li><strong>「LAN設定」「DHCP設定」「ホームネットワーク」</strong>のいずれかに近い項目を開きます。</li>
+              <li><strong>「DNSサーバー」「プライマリDNS」</strong>へ、ひとつ前で控えた数字を入力します。</li>
+              <li>セカンダリDNS（代替DNS）は<strong>空欄</strong>にします。</li>
+              <li><strong>「保存」「適用」</strong>を押します。</li>
+            </ol>
+            <p class="screen-note">※TP-Linkの場合</p>
+            <figure class="screen connection-image">
+              <img src="../assets/router-dns-settings-tplink.png" alt="TP-LinkルーターのDHCPサーバー設定画面。プライマリDNSへLAN MonitorのIPアドレスを入力する場所が赤い矢印と下線で示されている。" width="1115" height="707">
+            </figure>
+            <aside class="callout"><strong>Wi-Fiのパスワードとは異なる場合があります。</strong><p>ルーター本体のシールなどに記載された「管理者パスワード」「Web PW」「ログインパスワード」、またはお客様ご自身で設定したID・パスワードを確認してください。</p></aside>
+            <aside class="callout warning"><strong>ルーターによって項目名が違います。</strong><p>DNSの入力欄が見つからない場合は、ルーターの説明書で「DHCP DNS」を検索するか、契約している通信会社へ確認してください。</p></aside>
+            <aside class="callout warning"><strong>固定アドレスからルーター画面が開かない場合</strong><p>二重ルーターなどの特殊な構成が考えられます。ルーター本体のシールや説明書で設定画面を確認してください。分からない場合は通信会社またはメーカーへお問い合わせください。</p></aside>
+          </div></article>
+
+          <div class="setup-complete" role="status">
+            <strong>これで設定は完了です。</strong>
+            <p>ここから先は、正しく動作しているかを確認する手順です。</p>
+          </div>
+
+          <div class="confirmation-head">
+            <p class="kicker">Check</p>
+            <h3>ここからは動作確認です。</h3>
+            <p>Wi-Fiをつなぎ直し、履歴が表示されることを確認します。</p>
+          </div>
+
+          <article class="step"><div class="step-body">
+            <h3>スマホやパソコンのWi-Fiをつなぎ直す</h3>
+            <p>設定を反映するため、見守りたいスマホやパソコンのWi-Fiを一度オフにして、もう一度オンにします。</p>
+          </div></article>
+
+          <article class="step"><div class="step-body">
+            <h3>履歴が表示されるか確認する</h3>
+            <ol>
+              <li>見守りたい端末で、普段使っているWebサイトを1つ開きます。</li>
+              <li>LAN Monitorの画面を開き、上にある<strong>「履歴」</strong>を押します。</li>
+              <li>数秒〜十数秒待ち、サイト名が表示されたら完了です。</li>
+            </ol>
+            <figure class="screen">
+              <img src="../assets/lanmonitor-history-screen.png" alt="LAN Monitorの履歴画面。iPhone12Proのアクセス履歴として、時刻、端末、サイト名、ドメインが一覧で表示されている。" width="1609" height="844">
+              <figcaption>履歴画面の例。表示されるのは、時刻・端末・サイト・ドメインです。</figcaption>
+            </figure>
+          </div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" aria-labelledby="done-title">
+      <div class="container">
+        <div class="success-box"><span class="success-mark">✓</span><h2 id="done-title">動作確認ができました。</h2><p>これからは、自宅Wi-Fiにつないだ端末のWebサイト履歴をLAN Monitor画面で確認できます。メッセージ本文やページの内容は記録されません。</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="help" aria-labelledby="special-title">
+      <div class="container">
+        <div class="section-head"><p class="kicker">Special cases</p><h2 id="special-title">特殊な環境で使う場合</h2><p>ここから先は、基本手順でうまくいかなかった場合や、特殊なネットワーク環境で使う場合にご覧ください。</p></div>
+        <div class="advanced-grid">
+          <details><summary>LANケーブルを使わずWi-Fiで置きたい</summary><div class="details-body"><p>最初だけLANケーブルで接続し、LAN Monitor画面の<strong>「設定」→「Wi-Fi接続」</strong>を開きます。「SSIDを検索」から自宅Wi-Fiを選び、Wi-Fiのパスワードを入力してください。</p><p>接続後に表示される<strong>Wi-Fi IP</strong>を、ルーターのDNSへ設定し直してからLANケーブルを外します。</p></div></details>
+          <details><summary>IPv6、メッシュWi-Fi、二重ルーターを使っている</summary><div class="details-body"><p>IPv6側のDNSや、別のWi-Fi機器から配られるDNSを使うと、一部の履歴が記録されないことがあります。すべてのルーター／Wi-Fi親機で、端末へ配るDNSをLAN Monitorへそろえる必要があります。</p><p>設定場所が分からない場合は、機器の型番を添えてお問い合わせください。</p></div></details>
+          <details><summary>iPhoneやAndroidだけ履歴が出ない</summary><div class="details-body"><ul><li>iPhone／iPad: iCloudプライベートリレーが有効だと、一部の通信を記録できない場合があります。</li><li>Android: 「プライベートDNS」で特定のプロバイダ名を指定していると、記録されない場合があります。</li><li>4G／5Gなどのモバイル回線は対象外です。自宅Wi-Fiにつないで確認してください。</li></ul></div></details>
+          <details><summary>ブラウザの「セキュアDNS」を使っている</summary><div class="details-body"><p>ChromeやFirefoxなどでセキュアDNS（DNS over HTTPS）を個別に設定している場合、そのブラウザの履歴が記録されないことがあります。ブラウザの設定を「現在のサービスプロバイダを使用」またはオフにして確認してください。</p></div></details>
+          <details><summary>会社・学校・共用住宅のネットワークで使いたい</summary><div class="details-body"><p>自分で管理していないネットワークの設定は変更しないでください。必ずネットワーク管理者の許可を得てください。ゲストWi-Fiや端末同士を分離する設定では利用できない場合があります。</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head"><p class="kicker">Q&amp;A</p><h2 id="faq-title">よくある質問</h2></div>
+        <div class="faq-list">
+          <details><summary>LAN Monitorの画面が開きません</summary><div class="details-body"><ol><li>スマホやパソコンが自宅Wi-Fiにつながっているか確認します。</li><li>本体の電源とLANケーブルを差し直し、3分待ちます。</li><li><strong>http://monitor-trafic.local/</strong> のつづりを確認します。</li><li>それでも開かない場合は、ルーターの「接続端末一覧」でLAN MonitorのIPを調べ、ブラウザへ <strong>http://IPの数字/</strong> と入力します。</li></ol></div></details>
+          <details><summary>設定後、インターネットにつながりません</summary><div class="details-body"><p>ルーターのDNSへ入力した数字が、LAN Monitor画面に表示されたIPと同じか確認します。直らない場合は、DNSを「自動取得」または変更前の状態へ戻し、Wi-Fiをつなぎ直してください。</p></div></details>
+          <details><summary>インターネットにはつながるのに履歴が出ません</summary><div class="details-body"><ol><li>見守りたい端末のWi-Fiをオフ／オンします。</li><li>Webサイトを新しく開き、十数秒待ちます。</li><li>ルーターのセカンダリDNSが空欄か確認します。</li><li>このページの「特殊な環境」にある、プライベートリレー／プライベートDNS／セキュアDNSを確認します。</li></ol></div></details>
+          <details><summary>管理用パスワードを忘れました</summary><div class="details-body"><p>ログイン画面の<strong>「パスワードを忘れた場合」</strong>を押し、製品に同梱されたリカバリーコードと新しいパスワードを入力してください。</p></div></details>
+          <details><summary>設定すると、家族の端末にアプリが入りますか？</summary><div class="details-body"><p>いいえ。スマホやパソコンへアプリを入れる必要はありません。自宅Wi-FiのDNS設定を使って履歴を記録します。</p></div></details>
+          <details><summary>何を見たか、ページの中身まで分かりますか？</summary><div class="details-body"><p>分かるのは、おおよその時刻、端末、Webサイト名、ドメインです。ページ本文、検索キーワード、メッセージ本文は記録しません。</p></div></details>
+          <details><summary>外出中のスマートフォンも記録されますか？</summary><div class="details-body"><p>いいえ。LAN Monitorを設定した自宅Wi-Fiにつながっている間だけが対象です。4G／5Gや外出先のWi-Fiは対象外です。</p></div></details>
+          <details><summary>LAN Monitorの電源を切るとどうなりますか？</summary><div class="details-body"><p>ルーターのDNSがLAN Monitorを向いたままだと、インターネットにつながらなくなることがあります。電源を切る前に、ルーターのDNSを「自動取得」または変更前の設定へ戻してください。</p></div></details>
+          <details><summary>家族に知らせず使ってもよいですか？</summary><div class="details-body"><p>LAN MonitorはWebサイトの利用履歴を扱います。利用者へ知らせ、家庭内で合意したうえで使用してください。</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="line-contact">
+      <div class="container contact">
+        <div class="contact-copy">
+          <p class="contact-kicker">LINE support</p>
+          <h2>それでも解決しない場合</h2>
+          <p>LINE公式アカウントから、ルーターのメーカー・型番、困っている手順、画面に出ているメッセージをお知らせください。</p>
+        </div>
+        <div class="line-card">
+          <div class="line-badge">LINE公式アカウント</div>
+          <img src="../assets/LineAddQR.png" alt="LAN Monitor LINE公式アカウント追加用QRコード" width="540" height="540">
+          <p>スマートフォンのカメラで<br>QRコードを読み取ってください。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; Cerberus Hack. LAN Monitor</span>
+      <div class="footer-links"><a href="/">製品ページ</a><a href="#steps">設定手順</a><a href="#faq">Q&amp;A</a><a href="#line-contact">LINEでお問い合わせ</a></div>
+    </div>
+  </footer>
+</body>
+</html>
