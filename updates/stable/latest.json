@@ -1,13 +1,13 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.3",
   "channel": "stable",
   "updater_min_version": "1.0.0",
   "images": {
     "monitor": {
-      "image": "ghcr.io/kalimanman/lan-monitor:1.0.1",
-      "digest": "sha256:bdc5da7768dfa7a70c45ba08d70966264efd1fee448b8ab9131aea8fd20a83f7"
+      "image": "ghcr.io/kalimanman/lan-monitor:1.0.3",
+      "digest": "sha256:1fa83533e64689d843aae168dd3f8b48238647f6366f15e07ad4f17a4b4d2dd3"
     }
   },
-  "notes": "LAN Monitor 1.0.1 初回リリース",
-  "created_at": "2026-07-23T09:41:52Z"
+  "notes": "変更内容を1行で記載",
+  "created_at": "2026-07-26T23:11:01Z"
 }
