@@ -359,9 +359,9 @@ p {
 
 .screen-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(300px, .72fr);
-  gap: clamp(35px, 6vw, 70px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 56px);
+  align-items: start;
 }
 
 .screen-shot {
@@ -374,6 +374,13 @@ p {
 
 .screen-shot img {
   width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.screen-copy {
+  width: min(100%, 760px);
+  margin-inline: auto;
 }
 
 .check-list {
@@ -793,6 +800,14 @@ details p {
 
   .line-card img {
     width: 150px;
+  }
+
+  .screen-grid {
+    gap: 32px;
+  }
+
+  .screen-shot {
+    border-radius: 14px;
   }
 
 }
